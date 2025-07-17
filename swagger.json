@@ -1,0 +1,82 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Login",
+    "version": "1.0.0",
+    "description": "API de Login para estudo de testes de software"
+  },
+  "servers": [
+    { "url": "http://localhost:3000" }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "summary": "Realiza login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Login realizado com sucesso" },
+          "401": { "description": "Credenciais inválidas" },
+          "423": { "description": "Usuário bloqueado temporariamente" }
+        }
+      }
+    },
+    "/forgot-password": {
+      "post": {
+        "summary": "Solicita redefinição de senha",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Token de redefinição enviado" },
+          "404": { "description": "Usuário inválido" }
+        }
+      }
+    },
+    "/reset-password": {
+      "post": {
+        "summary": "Redefine a senha usando token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": { "type": "string" },
+                  "newPassword": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Senha redefinida com sucesso" },
+          "400": { "description": "Token inválido ou expirado" }
+        }
+      }
+    }
+  }
+} 
