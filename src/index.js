@@ -161,3 +161,5 @@ app.listen(3000, () => {
   console.log('API rodando em http://localhost:3000');
   console.log('Swagger em http://localhost:3000/api-docs');
 }); 
+
+module.exports = app;
