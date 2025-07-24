@@ -71,7 +71,7 @@ app.post('/login', (req, res) => {
     return res.json({ message: 'Login realizado com sucesso!' });
   } else {
     loginAttempts++;
-    if (loginAttempts >= 3) {
+    if (loginAttempts > 3) {
       blockedUntil = now + 60 * 1000;
       loginAttempts = 0;
       return res.status(423).json({
@@ -112,7 +112,7 @@ app.post('/forgot-password', (req, res) => {
   resetTokens[token] = { email, expiresAt };
   return res.json({
     token,
-    expiresAt: 15, // agora retorna 15 minutos como inteiro
+    expiresAt: 15,
     message: 'Token gerado. Expira em 15 minutos.',
   });
 });
@@ -154,6 +154,8 @@ app.post('/reset-password', (req, res) => {
   }
   USER.password = newPassword;
   delete resetTokens[token];
+  blockedUntil = null;
+  loginAttempts = 0;
   return res.json({ message: 'Senha redefinida com sucesso.' });
 });
 
@@ -161,3 +163,4 @@ app.listen(3000, () => {
   console.log('API rodando em http://localhost:3000');
   console.log('Swagger em http://localhost:3000/api-docs');
 }); 
+module.exports = { app, resetTokens };
